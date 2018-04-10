@@ -3,12 +3,22 @@
 # run "ansible-playbook play.yml -i hosts" from this directory
 - hosts: all
   remote_user: root
+  gather_facts: no
+  pre_tasks:
+    - name: Install python
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: false
+
+    - name: Gather Facts
+      setup:
+
   vars:
-    mattermost_version: 3.5.1
+    mattermost_version: 4.3.2
+    postgres_version: 9.4
 
    # The user the mattermost process will run as. The group will match.
     mattermost_user: mattermost
-   
+
    # These do not need to be edited.
     db_user: mmmost
     db_name: mattermost
@@ -21,7 +31,6 @@
     cert_email_address: abc@123.com
 
   roles:
-    - common
     - postgres
     - mattermost
     - letsencrypt

@@ -1,9 +1,5 @@
 ---
-- include: Debian.yml
-  when: ansible_os_family == "Debian"
-
-- include: RedHat.yml
-  when: ansible_os_family == 'RedHat'
+- include_tasks: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
 
 - name: ensure database is created
   become: true
@@ -27,3 +23,4 @@
     name: "{{ db_user }}"
     role_attr_flags: NOSUPERUSER,NOCREATEDB
 
+# vim:ft=ansible:

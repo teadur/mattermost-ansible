@@ -1,4 +1,5 @@
 hosts
 *.swp
 *.retry
+play-live.yml
 testplay.yml
